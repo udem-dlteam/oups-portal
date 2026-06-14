@@ -182,6 +182,9 @@
           forgotPassword: 'Forgot password?',
           createAccount: 'Create an account',
           logoAlt: 'Oups! app logo',
+          emailRequired: 'Please fill out this field.',
+          passwordRequired: 'Please fill out this field.',
+          emailInvalid: 'Please enter an email address.',
         },
         fr: {
           title: 'Se connecter au portail Oups!',
@@ -191,6 +194,9 @@
           forgotPassword: 'Mot de passe oublié ?',
           createAccount: 'Créer un compte',
           logoAlt: "Logo de l'application Oups!",
+          emailRequired: 'Veuillez remplir ce champ.',
+          passwordRequired: 'Veuillez remplir ce champ.',
+          emailInvalid: 'Veuillez saisir une adresse e-mail.',
         },
         es: {
           title: 'Iniciar sesión en el portal de Oups!',
@@ -200,6 +206,9 @@
           forgotPassword: '¿Olvidaste tu contraseña?',
           createAccount: 'Crear una cuenta',
           logoAlt: 'Logotipo de la aplicación Oups!',
+          emailRequired: 'Rellena este campo.',
+          passwordRequired: 'Rellena este campo.',
+          emailInvalid: 'Introduce una dirección de correo electrónico.',
         },
         pt: {
           title: 'Entrar no portal Oups!',
@@ -209,6 +218,9 @@
           forgotPassword: 'Esqueceu a senha?',
           createAccount: 'Criar uma conta',
           logoAlt: 'Logotipo do aplicativo Oups!',
+          emailRequired: 'Preencha este campo.',
+          passwordRequired: 'Preencha este campo.',
+          emailInvalid: 'Insira um endereço de e-mail.',
         },
         de: {
           title: 'Bei Oups!-Portal anmelden',
@@ -218,6 +230,9 @@
           forgotPassword: 'Passwort vergessen?',
           createAccount: 'Konto erstellen',
           logoAlt: 'Logo der Oups!-App',
+          emailRequired: 'Bitte füllen Sie dieses Feld aus.',
+          passwordRequired: 'Bitte füllen Sie dieses Feld aus.',
+          emailInvalid: 'Bitte geben Sie eine E-Mail-Adresse ein.',
         },
         ja: {
           title: 'Oups!ポータルにサインイン',
@@ -227,8 +242,45 @@
           forgotPassword: 'パスワードをお忘れですか？',
           createAccount: 'アカウントを作成',
           logoAlt: 'Oups!アプリのロゴ',
+          emailRequired: 'このフィールドを入力してください。',
+          passwordRequired: 'このフィールドを入力してください。',
+          emailInvalid: 'メールアドレスを入力してください。',
         },
       };
+
+      function getValidationMessage(field, lang) {
+        const t = translations[lang] || translations.en;
+        if (field.validity.valueMissing) {
+          if (field.id === 'email') {
+            return t.emailRequired;
+          }
+          if (field.id === 'password') {
+            return t.passwordRequired;
+          }
+        }
+        if (field.id === 'email' && field.validity.typeMismatch) {
+          return t.emailInvalid;
+        }
+        return '';
+      }
+
+      function updateFieldValidationMessage(field, lang) {
+        field.setCustomValidity('');
+        const message = getValidationMessage(field, lang);
+        if (message) {
+          field.setCustomValidity(message);
+        }
+      }
+
+      function updateValidationMessages(lang) {
+        [emailInput, passwordInput].forEach((field) => {
+          if (field.matches(':invalid')) {
+            updateFieldValidationMessage(field, lang);
+          } else {
+            field.setCustomValidity('');
+          }
+        });
+      }
 
       function applyLanguage(lang) {
         const t = translations[lang] || translations.en;
@@ -243,9 +295,22 @@
         if (logo) {
           logo.alt = t.logoAlt;
         }
+        updateValidationMessages(lang);
       }
 
       const select = document.getElementById('language');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      [emailInput, passwordInput].forEach((field) => {
+        field.addEventListener('invalid', () => {
+          const activeLang = select.value in translations ? select.value : 'en';
+          updateFieldValidationMessage(field, activeLang);
+        });
+        field.addEventListener('input', () => {
+          field.setCustomValidity('');
+        });
+      });
+
       select.addEventListener('change', () => {
         applyLanguage(select.value);
         localStorage.setItem('oups-lang', select.value);

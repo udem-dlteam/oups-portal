@@ -89,6 +89,17 @@ test('GET / script detects browser language via navigator.language', async () =>
   assert.match(html, /navigator\.language/);
 });
 
+test('GET / script includes localized custom validation messaging', async () => {
+  const response = await request(app).get('/');
+  const html = response.text;
+
+  assert.match(html, /setCustomValidity/);
+  assert.match(html, /addEventListener\('invalid'/);
+  assert.match(html, /emailRequired/);
+  assert.match(html, /passwordRequired/);
+  assert.match(html, /emailInvalid/);
+});
+
 test('GET / page places forgot-password before the login button', async () => {
   const response = await request(app).get('/');
   const html = response.text;
