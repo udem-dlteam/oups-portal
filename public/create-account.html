@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Oups! Portal - Login</title>
+    <title>Oups! Portal - Create account</title>
     <style>
       body {
         margin: 0;
@@ -39,7 +39,6 @@
       .lang-icon {
         font-size: 1.1rem;
         line-height: 1;
-        /* pure CSS globe — no external dependency */
       }
       #language {
         border: none;
@@ -54,14 +53,14 @@
         border-radius: 4px;
       }
 
-      /* ── Login card ── */
+      /* ── Card ── */
       main {
         width: min(90vw, 380px);
         background: #fff;
         border-radius: 12px;
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
         padding: 24px;
-        margin-top: 56px; /* clear the fixed topbar */
+        margin-top: 56px;
       }
       .logo {
         display: block;
@@ -101,19 +100,6 @@
       button:hover {
         background: #2d49c4;
       }
-      .field-error {
-        color: #d32f2f;
-        font-size: 0.85rem;
-        margin: 4px 0 0;
-      }
-      .btn-secondary {
-        background: transparent;
-        color: #3858e9;
-        border: 1px solid #3858e9;
-      }
-      .btn-secondary:hover {
-        background: #eef0fc;
-      }
       .btn-link {
         display: inline-block;
         width: auto;
@@ -127,6 +113,11 @@
       .btn-link:hover {
         color: #2d49c4;
         background: transparent;
+      }
+      .field-error {
+        color: #d32f2f;
+        font-size: 0.85rem;
+        margin: 4px 0 0;
       }
     </style>
   </head>
@@ -152,123 +143,138 @@
         src="https://oups-app.com/logo+oups-01.png"
         alt="Oups! app logo"
       />
-      <h1 data-i18n="title">Sign in to Oups! portal</h1>
-      <form>
+      <h1 data-i18n="title">Create an account</h1>
+      <form id="create-account-form">
         <label for="email" data-i18n="email">Email</label>
         <input id="email" name="email" type="email" autocomplete="username" required autofocus />
+        <p id="email-error" class="field-error" hidden></p>
 
         <label for="password" data-i18n="password">Password</label>
         <input
           id="password"
           name="password"
           type="password"
-          autocomplete="current-password"
+          autocomplete="new-password"
           required
         />
-        <p id="password-error" class="field-error" hidden></p>
 
-        <button type="button" class="btn-link" data-i18n="forgotPassword">
-          Forgot password?
-        </button>
+        <label for="password-confirm" data-i18n="passwordConfirm">Confirm password</label>
+        <input
+          id="password-confirm"
+          name="password-confirm"
+          type="password"
+          autocomplete="new-password"
+          required
+        />
+        <p id="password-confirm-error" class="field-error" hidden></p>
 
-        <button type="submit" class="submit-button" data-i18n="submit">Login</button>
+        <button type="submit" class="submit-button" data-i18n="submit">Create account</button>
 
-        <button type="button" class="btn-secondary" data-i18n="createAccount" onclick="location.href='/create-account'">
-          Create an account
+        <button type="button" class="btn-link" data-i18n="signIn" onclick="location.href='/'">
+          Sign in
         </button>
       </form>
     </main>
     <script>
       const translations = {
         en: {
-          title: 'Sign in to Oups! portal',
+          title: 'Create an account',
           email: 'Email',
           password: 'Password',
-          submit: 'Login',
-          forgotPassword: 'Forgot password?',
-          createAccount: 'Create an account',
+          passwordConfirm: 'Confirm password',
+          submit: 'Create account',
+          signIn: 'Sign in',
           logoAlt: 'Oups! app logo',
           emailRequired: 'Please fill out this field.',
           passwordRequired: 'Please fill out this field.',
+          passwordConfirmRequired: 'Please fill out this field.',
           emailInvalid: 'Please enter an email address.',
-          incorrectPassword: 'Incorrect email or password.',
+          accountExists: 'An account with this email already exists.',
+          passwordMismatch: 'Passwords do not match.',
         },
         fr: {
-          title: 'Se connecter au portail Oups!',
+          title: 'Créer un compte',
           email: 'Courriel',
           password: 'Mot de passe',
-          submit: 'Se connecter',
-          forgotPassword: 'Mot de passe oublié ?',
-          createAccount: 'Créer un compte',
+          passwordConfirm: 'Confirmer le mot de passe',
+          submit: 'Créer un compte',
+          signIn: 'Se connecter',
           logoAlt: "Logo de l'application Oups!",
           emailRequired: 'Veuillez remplir ce champ.',
           passwordRequired: 'Veuillez remplir ce champ.',
+          passwordConfirmRequired: 'Veuillez remplir ce champ.',
           emailInvalid: 'Veuillez saisir une adresse e-mail.',
-          incorrectPassword: 'Email ou mot de passe incorrect.',
+          accountExists: 'Un compte avec cette adresse e-mail existe déjà.',
+          passwordMismatch: 'Les mots de passe ne correspondent pas.',
         },
         es: {
-          title: 'Iniciar sesión en el portal de Oups!',
+          title: 'Crear una cuenta',
           email: 'Correo electrónico',
           password: 'Contraseña',
-          submit: 'Ingresar',
-          forgotPassword: '¿Olvidaste tu contraseña?',
-          createAccount: 'Crear una cuenta',
+          passwordConfirm: 'Confirmar contraseña',
+          submit: 'Crear cuenta',
+          signIn: 'Iniciar sesión',
           logoAlt: 'Logotipo de la aplicación Oups!',
           emailRequired: 'Rellena este campo.',
           passwordRequired: 'Rellena este campo.',
+          passwordConfirmRequired: 'Rellena este campo.',
           emailInvalid: 'Introduce una dirección de correo electrónico.',
-          incorrectPassword: 'Correo electrónico o contraseña incorrectos.',
+          accountExists: 'Ya existe una cuenta con este correo electrónico.',
+          passwordMismatch: 'Las contraseñas no coinciden.',
         },
         pt: {
-          title: 'Entrar no portal Oups!',
+          title: 'Criar uma conta',
           email: 'E-mail',
           password: 'Senha',
-          submit: 'Entrar',
-          forgotPassword: 'Esqueceu a senha?',
-          createAccount: 'Criar uma conta',
+          passwordConfirm: 'Confirmar senha',
+          submit: 'Criar conta',
+          signIn: 'Entrar',
           logoAlt: 'Logotipo do aplicativo Oups!',
           emailRequired: 'Preencha este campo.',
           passwordRequired: 'Preencha este campo.',
+          passwordConfirmRequired: 'Preencha este campo.',
           emailInvalid: 'Insira um endereço de e-mail.',
-          incorrectPassword: 'E-mail ou senha incorretos.',
+          accountExists: 'Já existe uma conta com este e-mail.',
+          passwordMismatch: 'As senhas não coincidem.',
         },
         de: {
-          title: 'Bei Oups!-Portal anmelden',
+          title: 'Konto erstellen',
           email: 'E-Mail',
           password: 'Passwort',
-          submit: 'Einloggen',
-          forgotPassword: 'Passwort vergessen?',
-          createAccount: 'Konto erstellen',
+          passwordConfirm: 'Passwort bestätigen',
+          submit: 'Konto erstellen',
+          signIn: 'Einloggen',
           logoAlt: 'Logo der Oups!-App',
           emailRequired: 'Bitte füllen Sie dieses Feld aus.',
           passwordRequired: 'Bitte füllen Sie dieses Feld aus.',
+          passwordConfirmRequired: 'Bitte füllen Sie dieses Feld aus.',
           emailInvalid: 'Bitte geben Sie eine E-Mail-Adresse ein.',
-          incorrectPassword: 'E-Mail oder Passwort ist falsch.',
+          accountExists: 'Ein Konto mit dieser E-Mail-Adresse existiert bereits.',
+          passwordMismatch: 'Die Passwörter stimmen nicht überein.',
         },
         ja: {
-          title: 'Oups!ポータルにサインイン',
+          title: 'アカウントを作成',
           email: 'メールアドレス',
           password: 'パスワード',
-          submit: 'ログイン',
-          forgotPassword: 'パスワードをお忘れですか？',
-          createAccount: 'アカウントを作成',
+          passwordConfirm: 'パスワードの確認',
+          submit: 'アカウントを作成',
+          signIn: 'サインイン',
           logoAlt: 'Oups!アプリのロゴ',
           emailRequired: 'このフィールドを入力してください。',
           passwordRequired: 'このフィールドを入力してください。',
+          passwordConfirmRequired: 'このフィールドを入力してください。',
           emailInvalid: 'メールアドレスを入力してください。',
-          incorrectPassword: 'メールアドレスまたはパスワードが正しくありません。',
+          accountExists: 'このメールアドレスは既に登録されています。',
+          passwordMismatch: 'パスワードが一致しません。',
         },
       };
 
       function getValidationMessage(field, lang) {
         const t = translations[lang] || translations.en;
         if (field.validity.valueMissing) {
-          if (field.id === 'email') {
-            return t.emailRequired;
-          }
-          if (field.id === 'password') {
-            return t.passwordRequired;
-          }
+          if (field.id === 'email') return t.emailRequired;
+          if (field.id === 'password') return t.passwordRequired;
+          if (field.id === 'password-confirm') return t.passwordConfirmRequired;
         }
         if (field.id === 'email' && field.validity.typeMismatch) {
           return t.emailInvalid;
@@ -279,13 +285,11 @@
       function updateFieldValidationMessage(field, lang) {
         field.setCustomValidity('');
         const message = getValidationMessage(field, lang);
-        if (message) {
-          field.setCustomValidity(message);
-        }
+        if (message) field.setCustomValidity(message);
       }
 
       function updateValidationMessages(lang) {
-        [emailInput, passwordInput].forEach((field) => {
+        [emailInput, passwordInput, passwordConfirmInput].forEach((field) => {
           if (field.matches(':invalid')) {
             updateFieldValidationMessage(field, lang);
           } else {
@@ -299,22 +303,21 @@
         document.documentElement.lang = lang;
         document.querySelectorAll('[data-i18n]').forEach((el) => {
           const key = el.getAttribute('data-i18n');
-          if (key in t) {
-            el.textContent = t[key];
-          }
+          if (key in t) el.textContent = t[key];
         });
         const logo = document.querySelector('img.logo');
-        if (logo) {
-          logo.alt = t.logoAlt;
-        }
+        if (logo) logo.alt = t.logoAlt;
         updateValidationMessages(lang);
       }
 
       const select = document.getElementById('language');
       const emailInput = document.getElementById('email');
       const passwordInput = document.getElementById('password');
-      const passwordError = document.getElementById('password-error');
-      [emailInput, passwordInput].forEach((field) => {
+      const passwordConfirmInput = document.getElementById('password-confirm');
+      const emailError = document.getElementById('email-error');
+      const passwordConfirmError = document.getElementById('password-confirm-error');
+
+      [emailInput, passwordInput, passwordConfirmInput].forEach((field) => {
         field.addEventListener('invalid', () => {
           const activeLang = select.value in translations ? select.value : 'en';
           updateFieldValidationMessage(field, activeLang);
@@ -324,28 +327,36 @@
         });
       });
 
-      // Hide incorrect-password error when the user edits either field
-      [emailInput, passwordInput].forEach((field) => {
-        field.addEventListener('input', () => {
-          passwordError.hidden = true;
-        });
+      // Hide server-side errors when the user starts editing
+      emailInput.addEventListener('input', () => {
+        emailError.hidden = true;
+      });
+      passwordConfirmInput.addEventListener('input', () => {
+        passwordConfirmError.hidden = true;
       });
 
-      document.querySelector('form').addEventListener('submit', async (e) => {
+      document.getElementById('create-account-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const lang = select.value in translations ? select.value : 'en';
         const t = translations[lang];
 
+        // Client-side password-match check
+        if (passwordInput.value !== passwordConfirmInput.value) {
+          passwordConfirmError.textContent = t.passwordMismatch;
+          passwordConfirmError.hidden = false;
+          return;
+        }
+
         try {
-          const res = await fetch('/login', {
+          const res = await fetch('/create-account', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: emailInput.value, password: passwordInput.value }),
           });
 
-          if (res.status === 401) {
-            passwordError.textContent = t.incorrectPassword;
-            passwordError.hidden = false;
+          if (res.status === 409) {
+            emailError.textContent = t.accountExists;
+            emailError.hidden = false;
             return;
           }
 
@@ -362,10 +373,6 @@
         localStorage.setItem('oups-lang', select.value);
       });
 
-      // Determine which language to use:
-      // 1. A previously saved preference stored in localStorage.
-      // 2. The primary language tag of the browser's UI language.
-      // 3. Fall back to 'en'.
       const saved = localStorage.getItem('oups-lang');
       if (saved && saved in translations) {
         select.value = saved;
