@@ -56,6 +56,26 @@
       button:hover {
         background: #2d49c4;
       }
+      .btn-secondary {
+        background: transparent;
+        color: #3858e9;
+        border: 1px solid #3858e9;
+      }
+      .btn-secondary:hover {
+        background: #eef0fc;
+      }
+      .btn-link {
+        background: transparent;
+        color: #3858e9;
+        border: none;
+        text-decoration: underline;
+        padding: 6px 0;
+        font-size: 0.9rem;
+      }
+      .btn-link:hover {
+        color: #2d49c4;
+        background: transparent;
+      }
     </style>
   </head>
   <body>
@@ -79,6 +99,16 @@
           required
         />
 
+        <button type="submit" data-i18n="submit">Login</button>
+
+        <button type="button" class="btn-link" data-i18n="forgotPassword">
+          Forgot password?
+        </button>
+
+        <button type="button" class="btn-secondary" data-i18n="createAccount">
+          Create an account
+        </button>
+
         <label for="language" data-i18n="language">Language</label>
         <select id="language" name="language" aria-label="Language selector">
           <option value="en">English</option>
@@ -88,8 +118,6 @@
           <option value="de">German</option>
           <option value="ja">Japanese</option>
         </select>
-
-        <button type="submit" data-i18n="submit">Login</button>
       </form>
     </main>
     <script>
@@ -98,48 +126,60 @@
           title: 'Sign in',
           email: 'Email',
           password: 'Password',
-          language: 'Language',
           submit: 'Login',
+          forgotPassword: 'Forgot password?',
+          createAccount: 'Create an account',
+          language: 'Language',
           logoAlt: 'Oups! app logo',
         },
         fr: {
           title: 'Connexion',
           email: 'Courriel',
           password: 'Mot de passe',
-          language: 'Langue',
           submit: 'Se connecter',
-          logoAlt: 'Logo de l\'application Oups!',
+          forgotPassword: 'Mot de passe oublié ?',
+          createAccount: 'Créer un compte',
+          language: 'Langue',
+          logoAlt: "Logo de l'application Oups!",
         },
         es: {
           title: 'Iniciar sesión',
           email: 'Correo electrónico',
           password: 'Contraseña',
-          language: 'Idioma',
           submit: 'Ingresar',
+          forgotPassword: '¿Olvidaste tu contraseña?',
+          createAccount: 'Crear una cuenta',
+          language: 'Idioma',
           logoAlt: 'Logotipo de la aplicación Oups!',
         },
         pt: {
           title: 'Entrar',
           email: 'E-mail',
           password: 'Senha',
-          language: 'Idioma',
           submit: 'Entrar',
+          forgotPassword: 'Esqueceu a senha?',
+          createAccount: 'Criar uma conta',
+          language: 'Idioma',
           logoAlt: 'Logotipo do aplicativo Oups!',
         },
         de: {
           title: 'Anmelden',
           email: 'E-Mail',
           password: 'Passwort',
-          language: 'Sprache',
           submit: 'Einloggen',
+          forgotPassword: 'Passwort vergessen?',
+          createAccount: 'Konto erstellen',
+          language: 'Sprache',
           logoAlt: 'Logo der Oups!-App',
         },
         ja: {
           title: 'サインイン',
           email: 'メールアドレス',
           password: 'パスワード',
-          language: '言語',
           submit: 'ログイン',
+          forgotPassword: 'パスワードをお忘れですか？',
+          createAccount: 'アカウントを作成',
+          language: '言語',
           logoAlt: 'Oups!アプリのロゴ',
         },
       };
@@ -162,6 +202,7 @@
       const select = document.getElementById('language');
       select.addEventListener('change', () => {
         applyLanguage(select.value);
+        localStorage.setItem('oups-lang', select.value);
       });
 
       // Honour a previously saved preference stored in localStorage.
@@ -170,11 +211,6 @@
         select.value = saved;
         applyLanguage(saved);
       }
-
-      // Persist the chosen language whenever it changes.
-      select.addEventListener('change', () => {
-        localStorage.setItem('oups-lang', select.value);
-      });
     </script>
   </body>
 </html>
