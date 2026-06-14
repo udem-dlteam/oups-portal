@@ -251,11 +251,20 @@
         localStorage.setItem('oups-lang', select.value);
       });
 
-      // Honour a previously saved preference stored in localStorage.
+      // Determine which language to use:
+      // 1. A previously saved preference stored in localStorage.
+      // 2. The primary language tag of the browser's UI language.
+      // 3. Fall back to 'en'.
       const saved = localStorage.getItem('oups-lang');
       if (saved && saved in translations) {
         select.value = saved;
         applyLanguage(saved);
+      } else {
+        const browserLang = (navigator.language || '').split('-')[0].toLowerCase();
+        if (browserLang && browserLang in translations) {
+          select.value = browserLang;
+          applyLanguage(browserLang);
+        }
       }
     </script>
   </body>

@@ -82,6 +82,13 @@ test('GET / email input has autofocus attribute', async () => {
   assert.match(html, /id="email"[^>]*autofocus/);
 });
 
+test('GET / script detects browser language via navigator.language', async () => {
+  const response = await request(app).get('/');
+  const html = response.text;
+
+  assert.match(html, /navigator\.language/);
+});
+
 test('GET / page places forgot-password before the login button', async () => {
   const response = await request(app).get('/');
   const html = response.text;
