@@ -75,6 +75,13 @@ test('GET / page has data-i18n attributes on translatable elements', async () =>
   assert.match(html, /data-i18n="createAccount"/);
 });
 
+test('GET / email input has autofocus attribute', async () => {
+  const response = await request(app).get('/');
+  const html = response.text;
+
+  assert.match(html, /id="email"[^>]*autofocus/);
+});
+
 test('GET / page places forgot-password before the login button', async () => {
   const response = await request(app).get('/');
   const html = response.text;
