@@ -16,6 +16,19 @@ test('GET / returns login page with required language options and logo', async (
   assert.match(response.text, /src="https:\/\/oups-app\.com\//);
 });
 
+test('GET / language selector is in the upper-right topbar with a globe icon', async () => {
+  const response = await request(app).get('/');
+  const html = response.text;
+
+  // Topbar nav wraps the language widget
+  assert.match(html, /class="topbar"/);
+  // Globe emoji icon
+  assert.match(html, /🌐/);
+  // The select is inside the lang-widget
+  assert.match(html, /class="lang-widget"/);
+  assert.match(html, /id="language"/);
+});
+
 test('GET / includes translations for all supported languages', async () => {
   const response = await request(app).get('/');
   const html = response.text;
@@ -57,7 +70,6 @@ test('GET / page has data-i18n attributes on translatable elements', async () =>
   assert.match(html, /data-i18n="title"/);
   assert.match(html, /data-i18n="email"/);
   assert.match(html, /data-i18n="password"/);
-  assert.match(html, /data-i18n="language"/);
   assert.match(html, /data-i18n="submit"/);
   assert.match(html, /data-i18n="forgotPassword"/);
   assert.match(html, /data-i18n="createAccount"/);
