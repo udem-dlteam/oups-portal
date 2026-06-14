@@ -8,7 +8,7 @@ test('GET / returns login page with required language options and logo', async (
 
   assert.equal(response.status, 200);
   assert.match(response.text, /<option value="en">English<\/option>/);
-  assert.match(response.text, /<option value="fr">Français|Français<\/option>/);
+  assert.match(response.text, /<option value="fr">Français<\/option>/);
   assert.match(response.text, /<option value="es">Español<\/option>/);
   assert.match(response.text, /<option value="pt">Português<\/option>/);
   assert.match(response.text, /<option value="de">Deutsch<\/option>/);
